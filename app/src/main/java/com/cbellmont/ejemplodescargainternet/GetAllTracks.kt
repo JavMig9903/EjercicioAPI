@@ -11,12 +11,17 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class GetAllFilms {
+class GetAllTracks {
     companion object {
-        suspend fun send(mainActivity : MainActivityInterface?) {
-
+        suspend fun send(mainActivity : MainActivityInterface?,ejemplo :String) {
             val client = OkHttpClient()
-            val url = "https://swapi.dev/api/films/"
+            var url=""
+            if (ejemplo.isEmpty()){
+                url = "https://itunes.apple.com/search?term=radiohead"
+            }else{
+                url = "https://itunes.apple.com/search?term=$ejemplo"
+            }
+
             val request = Request.Builder()
                 .url(url)
                 .build()
@@ -25,7 +30,7 @@ class GetAllFilms {
 
                 override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()
-                    Log.e("GetAllFilms", call.toString())
+                    Log.e("GetAllTracks", call.toString())
 
                 }
 
@@ -33,17 +38,17 @@ class GetAllFilms {
                     CoroutineScope(Dispatchers.IO).launch {
                         val bodyInString = response.body?.string()
                         bodyInString?.let {
-                            Log.w("GetAllFilms", bodyInString)
+                            Log.w("GetAllTracks", bodyInString)
                             val JsonObject = JSONObject(bodyInString)
 
                             val results = JsonObject.optJSONArray("results")
                             results?.let {
-                                Log.w("GetAllFilms", results.toString())
+                                Log.w("GetAllTracks", results.toString())
                                 val gson = Gson()
 
-                                val itemType = object : TypeToken<List<Film>>() {}.type
+                                val itemType = object : TypeToken<List<iTunes>>() {}.type
 
-                                val list = gson.fromJson<List<Film>>(results.toString(), itemType)
+                                val list = gson.fromJson<List<iTunes>>(results.toString(), itemType)
 
                                 mainActivity?.onFilmsReceived(list)
                             }
