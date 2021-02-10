@@ -17,7 +17,7 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.second_activity_main)
         buttonVolver.setOnClickListener {
-            if (textView1.text.toString().isEmpty()){
+            if (editText1.text.toString().isEmpty()){
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Error")
                 builder.setMessage("No has introducido nada")
@@ -26,9 +26,11 @@ class SecondActivity : AppCompatActivity() {
                 dialog.show()
 
             }else{
-                val intent = Intent(this,MainActivity::class.java)
-                intent.putExtra(MainActivity.VAR2,textView1.text.toString())
-                startActivity(intent)
+                val intent = Intent()
+                intent.putExtra(MainActivity.GRUPO_MUSICA, editText1.text.toString())
+                setResult(RESULT_OK, intent)
+                finish()
+                //startActivity(intent)
             }
         }
     }
