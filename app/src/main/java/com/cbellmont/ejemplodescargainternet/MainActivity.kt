@@ -31,25 +31,18 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
         CoroutineScope(Dispatchers.IO).launch{
                 GetAllTracks.send(this@MainActivity,"radiohead")
         }
+
         binding.buttonSecondAct.setOnClickListener {
             val intent = Intent(this,SecondActivity::class.java)
             intent.putExtra(SecondActivity.VAR1,"hola")
             startActivityForResult(intent, SECOND_ACTIVITY_CODE)
         }
-        /**
-        val vuelta= intent.getStringExtra(VAR2)
-        vuelta.let {
-            cambiar= vuelta.toString()
-        }
-        **/
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SECOND_ACTIVITY_CODE && resultCode == RESULT_OK) {
             Log.e("MAINACTIVITY","El Result funciona")
-
             data?.let {
                 var a = it.getStringExtra(GRUPO_MUSICA)
                 a?.let {
@@ -58,7 +51,6 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
                     }
                 }
             }
-
             return
         }
         Log.e("MAINACTIVITY","Algo ha fallado")

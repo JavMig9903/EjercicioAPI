@@ -16,6 +16,8 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.second_activity_main)
+
+
         buttonVolver.setOnClickListener {
             if (editText1.text.toString().isEmpty()){
                 val builder = AlertDialog.Builder(this)
@@ -24,13 +26,11 @@ class SecondActivity : AppCompatActivity() {
                 builder.setPositiveButton("Aceptar",null)
                 val dialog:AlertDialog = builder.create()
                 dialog.show()
-
             }else{
                 val intent = Intent()
                 intent.putExtra(MainActivity.GRUPO_MUSICA, editText1.text.toString())
                 setResult(RESULT_OK, intent)
                 finish()
-                //startActivity(intent)
             }
         }
     }
